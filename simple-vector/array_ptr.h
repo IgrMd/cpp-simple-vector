@@ -1,3 +1,4 @@
+//Sprint 7. ArrayPtr v0.1.1.
 #pragma once
 
 #include <cstdlib>
@@ -31,7 +32,9 @@ public:
 	ArrayPtr& operator=(const ArrayPtr&) = delete;
 	// Перемещение
 	ArrayPtr& operator=(ArrayPtr&& other) noexcept {
-		this->raw_ptr_ = other.Release();
+		if (this != &other) {
+			std::swap(this->raw_ptr_, other.raw_ptr_);
+		}
 		return *this;
 	}
 
@@ -62,9 +65,7 @@ public:
 	}
 	// Обменивается значениям указателя на массив с объектом other
 	void swap(ArrayPtr& other) noexcept {
-		Type* raw_ptr = raw_ptr_;
-		raw_ptr_ = other.raw_ptr_;
-		other.raw_ptr_ = raw_ptr;
+		std::swap(raw_ptr_, other.raw_ptr_);
 	}
 
 private:

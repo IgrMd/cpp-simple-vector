@@ -1,4 +1,4 @@
-//Sprint 7. SimpleVector v0.1.0.
+//Sprint 7. SimpleVector v0.1.1.
 #pragma once
 
 #include <algorithm>
@@ -84,6 +84,7 @@ public:
 	}
 	// Удаляет элемент вектора в указанной позиции
 	Iterator Erase(ConstIterator pos) {
+		assert(pos >= begin() && pos < end());
 		size_t index = pos - cbegin();
 		std::move(&array_[index+1], &array_[size_], &array_[index]);
 		--size_;
@@ -106,6 +107,7 @@ public:
 		return Insert(pos, std::move(copy_item));
 	}
 	Iterator Insert(ConstIterator pos, Type&& item) {
+		assert(pos >= begin() && pos <= end());
 		size_t index = pos - cbegin();
 		if (size_ == capacity_) {
 			IncreaseCapacity(1);
@@ -135,10 +137,12 @@ public:
 	}
 	// Возвращает ссылку на элемент с индексом index
 	Type& operator[](size_t index) noexcept {
+		assert(index < size_);
 		return array_[index];
 	}
 	// Возвращает константную ссылку на элемент с индексом index
 	const Type& operator[](size_t index) const noexcept {
+		assert(index < size_);
 		return array_[index];
 	}
 	// "Удаляет" последний элемент вектора. Вектор не должен быть пустым
